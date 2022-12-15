@@ -1,3 +1,4 @@
 import auth from "./auth";
+import event from "./event";
 
-export default { auth };
+export default { auth, event };
