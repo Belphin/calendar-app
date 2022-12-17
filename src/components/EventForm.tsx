@@ -1,6 +1,7 @@
 import { Button, DatePicker, Form, Input, Row, Select } from "antd";
 import { Moment } from "moment";
 import React, { FC, useState } from "react";
+import { useTypedSelector } from "../hooks/useTypedSelector";
 import { IEvent } from "../models/IEvent";
 import { IUser } from "../models/IUser";
 import { formatDate } from "../utils/date";
@@ -8,6 +9,7 @@ import { rules } from "../utils/rules";
 
 interface EventFormProps {
 	guests: IUser[];
+	submit: (event: IEvent) => void;
 }
 
 const EventForm: FC<EventFormProps> = (props) => {
@@ -17,6 +19,7 @@ const EventForm: FC<EventFormProps> = (props) => {
 		description: "",
 		guest: "",
 	} as IEvent);
+	const { user } = useTypedSelector((state) => state.auth);
 
 	const selectDate = (date: Moment | null) => {
 		if (date) {
@@ -25,7 +28,7 @@ const EventForm: FC<EventFormProps> = (props) => {
 	};
 
 	const submitForm = () => {
-		console.log(event);
+		props.submit({ ...event, author: user.username });
 	};
 
 	return (
